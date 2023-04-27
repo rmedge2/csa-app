@@ -6,7 +6,7 @@ const { authenticate } = require("../middlewares/auth");
 const { Basket, BasketItem, Item } = require('../models');
 
 //Creating a new basket
-router.post('/', authenticate, authenticate, async (req, res) => {
+router.post('/', authenticate, async (req, res) => {
     const { name, price } = req.body;
     try {
         const basket = await Basket.create({ name, price });
@@ -68,7 +68,7 @@ router.put('/:id', authenticate, async (req, res) => {
 });
 
 // Delete a basket by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticate, async (req, res) => {
     try {
         const deleted = await Basket.destroy({
             where: { id: req.params.id },
