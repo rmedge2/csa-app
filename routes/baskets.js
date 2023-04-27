@@ -41,6 +41,23 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// view items in basket
+router.get('/:id/items', async (req, res) => {
+    try {
+      const basket = await Basket.findByPk(req.params.id, {
+        include: [{ model: BasketItem, Item }],
+      });
+  
+      if (!basket) {
+        return res.status(404).json({ message: 'Basket not found' });
+      }
+  
+      res.json(basket.BasketItem);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving items', error });
+    }
+  });
+
 // Update a basket by ID
 router.put('/:id', authenticate, async (req, res) => {
     const { name, price } = req.body;

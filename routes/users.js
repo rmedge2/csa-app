@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { authenticate } = require('../middlewares/auth');
 
-const { User } = require('../models');
+const { User, Order } = require('../models');
 
 // Creating a new user
 router.post('/', authenticate, async(req, res) => {
@@ -36,6 +36,23 @@ router.get('/:id', async (req, res) => {
       }
   } catch (error) {
       res.status(500).json({ message: 'Error updating user', error });
+  }
+});
+
+// Attempt to get a specific users order
+router.get('/:id/orders', async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id, {
+      include: [{ model: Order }],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user.Order);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving tasks', error });
   }
 });
 

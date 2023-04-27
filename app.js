@@ -38,7 +38,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use("/baskets", basketsRouter);
-// app.use("/items", itemsRouter);
-// app.use("/orders", ordersRouter);
+app.use("/items", itemsRouter);
+app.use("/orders", ordersRouter);
 
 module.exports = app;
